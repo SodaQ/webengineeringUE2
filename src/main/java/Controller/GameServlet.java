@@ -7,79 +7,117 @@ package Controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Player;
+import model.Game;
 
 /**
  *
- * @author patrickfuerst
+ * @author Mayerhofer
  */
-@WebServlet(name = "GameServlet", urlPatterns = {"/GameServlet"})
 public class GameServlet extends HttpServlet {
 
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet GameServlet</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet GameServlet at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-             */
-        } finally {            
-            out.close();
-        }
+    private Game game;
+    
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        game = new Game("Super Mario", "Super Casdasd");
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+  
+    /**
+     * Responsible for Game
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String action = request.getParameter("action");
+        if(action==null) {
+            return;
+        }
+        if(action.equals("newGame")) {    
+            
+            game.resetGame();
+            game.getPlayer1().setName("blaasdasd");
+             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
+                dispatcher.forward(request, response);
+        }
     }
 
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+    /**
+     * Responsible for updating a user and creating new users.
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
+/*
+        HttpSession session = request.getSession(true);         
+        User user =(User)session.getAttribute("user");
+        boolean newuser = false;
+        if(user == null) {
+            user = new User();            
+            newuser = true;
+            user.setUsername(request.getParameter("username"));
+        } else {
+            user = userpool.getUser(user.getUsername());
+        }
+        user.setFirstname(request.getParameter("firstname"));
+        user.setLastname(request.getParameter("lastname"));        
+        user.setPassword(request.getParameter("password"));
 
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
+        String[] inter = request.getParameterValues("interests");
+        if(!newuser) {
+            user.clearInterests();
+        }
+        if(inter != null ) {
+            List<String> interests = Arrays.asList(inter);
+            if(interests.contains("webEngineering")) {
+                user.addInterest(Interest.WEBENINEERING);                
+            }
+            if(interests.contains("modelEngineering")) {
+                user.addInterest(Interest.MODELENGINEERING);                
+            }
+            if(interests.contains("semanticWeb")) {
+                user.addInterest(Interest.SEMANTICWEB);                
+            }
+            if(interests.contains("objectOrientedModeling")) {
+                user.addInterest(Interest.OBJECTORIENTEDMODELING);                
+            }
+            if(interests.contains("businessInformatics")) {
+                user.addInterest(Interest.BUSINESSINFORMATICS);                
+            }         
+        } 
+        
+        session.setAttribute("user", user);
+        
+        if(newuser) {
+            userpool.registerUser(user);
+        }           
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/userpage.jsp");
+        dispatcher.forward(request, response);
+ * 
+ */
+    }
+    
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+        return "Servlet for registration";
+    }
 }

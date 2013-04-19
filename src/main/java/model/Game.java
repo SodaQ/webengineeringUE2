@@ -21,6 +21,17 @@ public class Game {
     private String leader;
 
     
+    public Game(){
+         
+        this.player1 = new Player("da");
+        this.player2 = new Player("bla");
+        this.round = 0;
+        this.gameDurationInSeconds = 0;
+        this.gameStartTime = System.currentTimeMillis();
+        this.diceResult = 0;
+        this.leader = "mehrere";
+    }
+    
     public Game(String playerOneName, String playerTwoName){
         
         this.player1 = new Player(playerOneName);
