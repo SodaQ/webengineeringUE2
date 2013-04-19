@@ -1,3 +1,5 @@
+package model;
+
 /*
  * This is our Model class Player.
  *
@@ -31,20 +33,6 @@ public class Player {
     
     public void setName(String name){
         this.name = name;
-    }
-
-    /**
-     * @return the carPosition
-     */
-    public int getCarPosition() {
-        return carPosition;
-    }
-
-    /**
-     * @param carPosition the carPosition to set
-     */
-    public void setCarPosition(int carPosition) {
-        this.carPosition = carPosition;
     }
     
 }
