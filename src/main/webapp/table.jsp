@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="MacRoman"%>
-<jsp:useBean id="game"  class="model.Game" />
+<jsp:useBean id="game" scope="session"  class="model.Game" />
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
@@ -34,14 +34,14 @@
                         <h2>Spielinformationen</h2>
                         <table summary="Diese Tabelle zeigt Informationen zum aktuellen Spiel">
                             <tr><th id="leaderLabel" class="label">F&uuml;hrender</th><td id="leader" class="data"> <%= game.getLeader()%></td></tr>
-                            <tr><th id="roundLabel" class="label">Runde</th><td id="round" class="data">1</td></tr>
-                            <tr><th id="timeLabel" class="label">Zeit</th><td id="time" class="data">02:30</td></tr>
-                            <tr><th id="computerScoreLabel" class="label">W&uuml;rfelergebnis <em>Super C</em></th><td id="computerScore" class="data">3</td></tr>
+                            <tr><th id="roundLabel" class="label">Runde</th><td id="round" class="data"><%= game.getRound() %></td></tr>
+                            <tr><th id="timeLabel" class="label">Zeit</th><td id="time" class="data"><%= game.getGameDurationInSeconds()%></td></tr>
+                            <tr><th id="computerScoreLabel" class="label">W&uuml;rfelergebnis <em>Super C</em></th><td id="computerScore" class="data"><%= game.getLastDiceResultComputer()%></td></tr>
                         </table>  
                         <h2>Spieler</h2>
                         <table summary="Diese Tabelle listet die Namen der Spieler auf">
-                            <tr><th id="player1NameLabel" class="label">Spieler 1</th><td id="player1Name" class="data">Super Mario</td></tr>
-                            <tr><th id="player2NameLabel" class="label">Spieler 2</th><td id="player2Name" class="data">Super C</td></tr>
+                            <tr><th id="player1NameLabel" class="label">Spieler 1</th><td id="player1Name" class="data"><%= game.getPlayer1().getName() %></td></tr>
+                            <tr><th id="player2NameLabel" class="label">Spieler 2</th><td id="player2Name" class="data"><%= game.getPlayer2().getName() %></td></tr>
                         </table>    	  
                     </div>
                     <div class="field">
