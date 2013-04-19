@@ -29,7 +29,6 @@ public class GameServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        game = new Game("Super Mario", "Super Casdasd");
     }
   
     /**
@@ -47,10 +46,21 @@ public class GameServlet extends HttpServlet {
         if(action==null) {
             return;
         }
+        
+         Game game =(Game)request.getSession().getAttribute("game");
+
+         // if this is a new session and there is no game attribute 
+         // create a new game
+         if(game == null){
+            game = new Game();
+            HttpSession session = request.getSession(true);
+            session.setAttribute("game", game);
+        
+         }
         if(action.equals("newGame")) {    
-            
+
+
             game.resetGame();
-            game.getPlayer1().setName("blaasdasd");
              RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
                 dispatcher.forward(request, response);
         }
