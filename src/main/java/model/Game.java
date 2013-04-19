@@ -18,18 +18,20 @@ public class Game {
     private int gameDurationInSeconds;
     private long gameStartTime;
     private int diceResult;
+    private int lastDiceResultComputer;
     private String leader;
 
     
     public Game(){
          
-        this.player1 = new Player("da");
-        this.player2 = new Player("bla");
+        this.player1 = new Player("Super Mario");
+        this.player2 = new Player("Super C");
         this.round = 0;
         this.gameDurationInSeconds = 0;
         this.gameStartTime = System.currentTimeMillis();
         this.diceResult = 0;
         this.leader = "mehrere";
+        this.lastDiceResultComputer = 0;
     }
     
     public Game(String playerOneName, String playerTwoName){
@@ -41,7 +43,8 @@ public class Game {
         this.gameStartTime = System.currentTimeMillis();
         this.diceResult = 0;
         this.leader = "mehrere";
-        
+        this.lastDiceResultComputer = 0;
+
         
     }
     
@@ -140,6 +143,20 @@ public class Game {
         this.diceResult = 0;
         this.leader = "mehrere";
         
+    }
+
+    /**
+     * @return the lastDiceResultComputer
+     */
+    public int getLastDiceResultComputer() {
+        return lastDiceResultComputer;
+    }
+
+    /**
+     * @param lastDiceResultComputer the lastDiceResultComputer to set
+     */
+    public void setLastDiceResultComputer(int lastDiceResultComputer) {
+        this.lastDiceResultComputer = lastDiceResultComputer;
     }
     
     
