@@ -82,14 +82,8 @@ public class GameServlet extends HttpServlet {
             request.setAttribute("P1Oel", game.isP1Oel());
             request.setAttribute("P2Oel", game.isP2Oel());
             request.setAttribute("dice", game.getDiceID());
-            request.getRequestDispatcher("table.jsp").forward(request, response);
             
-            //RequestDispatcher rd = getServletContext().getRequestDispatcher("/table.jsp");
-            //request.setAttribute("player1Pos", game.getPlayer1() );
-            //rd.forward(request, response);
-            
-            //request.getRequestDispatcher("table.jsp").forward(request, response);
-                  
+            request.getRequestDispatcher("table.jsp").forward(request, response);      
         }
     }
 

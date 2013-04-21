@@ -26,27 +26,55 @@ public class Game {
     private String duration;
     private String diceID;
     private boolean reseted;
-
-
+    private boolean init;
     
     public Game(){
         this.player1 = new Player("Super Mario");
         this.player2 = new Player("Super C");
         reseted = false;
-        resetGame();
+        this.round = 1;
+        this.gameStartTime = System.currentTimeMillis();
+        this.lastDiceResult = 0;
+        this.leader = "mehrere";
+        player1.setOldCarPosition(0);
+        player2.setOldCarPosition(0);
+        running = false;
+        init = true;
+        duration = "";
+        diceID = "img/wuerfel0.png";
+        reseted = true;    
+        p1Oel = false; 
+        p2Oel = false;
     }
     
     public Game(String playerOneName, String playerTwoName){
         this.player1 = new Player(playerOneName);
         this.player2 = new Player(playerTwoName);
         reseted = false;
-        resetGame();
+        init = true;
+        this.round = 1;
+        this.gameStartTime = System.currentTimeMillis();
+        this.lastDiceResult = 0;
+        this.leader = "mehrere";
+        player1.setOldCarPosition(0);
+        player2.setOldCarPosition(0);
+        running = false;
+        init = true;
+        duration = "";
+        diceID = "img/wuerfel0.png";
+        reseted = true;        
+        p1Oel = false; 
+        p2Oel = false;
     }
     
     /**
-     * called if new game is pressed
+     * reset Game
      */
     public void resetGame(){ 
+        if(p1Oel) 
+            resetP1();
+        if(p2Oel)
+            resetP2();
         if(reseted) {
             player1.setCarPosition(0);
             player2.setCarPosition(0);
@@ -102,22 +130,14 @@ public class Game {
         return round;
     }
 
-    /**
-     * @param round the round to set
-     */
-    public void setRound(int round) {
-        this.round = round;
-    }
-
-    /**
-     * @return the gameDurationInSeconds
-     */
     private int getGameDurationSeconds() {
         return (int) (Math.round(System.currentTimeMillis()/1000 - gameStartTime/1000) % 60);
     }
+    
     private int getGameDurationMinutes() {
         return (int) (Math.round(System.currentTimeMillis()/1000 - gameStartTime/1000)/60);
-    }    
+    }
+    
     public String getGameDuration() {
         if (running) {
             if (getGameDurationMinutes() < 10) {
@@ -159,11 +179,15 @@ public class Game {
     }
             
     public void play() {
+        if(init) {
+            resetGame();
+            init = false;
+        }
         if(p1Oel) 
             resetP1();
         if(p2Oel)
             resetP2();
-        p2Oel = false;
+        p2Oel = false;  
         p1Oel = false;
         if(reseted) {
             player1.setCarPosition(0);
@@ -175,32 +199,32 @@ public class Game {
         if(!running) {
             return;
         }
-        
-        //-----------
-        //Fleckenerkennung!!!   ;D
-        //-----------
-        //if(p1Oel)
-        //    player1.setCarPosition(0);
-        //if(p2Oel)
-        //    player2.setCarPosition(0);
-        
+
         round++;
         
         updatePositionPlayer1(getRandomNumber());
+        
         if(checkWinner()) 
             return;
+        
         updatePositionPlayer2(getRandomNumber());
+        
         if(checkWinner()) 
             return;
+        
         checkOel();
+        
         updateLeader(); 
     }
     
     private void resetP1() {
         player1.setCarPosition(0);
+        player1.setOldCarPosition(0);
     }
+    
     private void resetP2() {
         player2.setCarPosition(0);
+        player2.setOldCarPosition(0);
     }
     
     private int getRandomNumber() {
@@ -210,13 +234,11 @@ public class Game {
     private boolean checkWinner() {
         if(player1.getCarPosition()>= 6) {
             player1.setCarPosition(6);   
-
             running = false;
             updateLeader();
             return true;
         } else if(player2.getCarPosition() >= 6) {
             player2.setCarPosition(6);
-
             running = false;
             updateLeader();
             return true;
@@ -249,15 +271,23 @@ public class Game {
     public boolean isRunning() {
         return running;
     }
+    
     public boolean isP1Oel() {
         return p1Oel;
     }
+    
     public boolean isP2Oel() {
         return p2Oel;
     }
+    
+    public boolean isInit() {
+        return init;
+    }
+    
     public String getDiceID() {
         return diceID;
     }
+    
     public void setDiceID(int i) {
         switch(i) {
             case 1: 

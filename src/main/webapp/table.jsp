@@ -81,7 +81,7 @@
                         <h2 class="accessibility">W&uuml;rfelbereich</h2>
                         <span class="accessibility">An der Reihe ist</span><div id="currentPlayerName">Super Mario</div>
                         <a id="dice" href="GameServlet?action=dice" tabindex="4">
-                            <img id="diceImage" src="img/wuerfel1.png" alt="W&uuml;rfel mit einer Eins" />	
+                            <img id="diceImage" src="img/wuerfel0.png" alt="W&uuml;rfel mit einer Eins" />	
                         </a>
                     </div>
                 </div>
@@ -102,18 +102,19 @@
             
             var oel1 = false;
             var oel2 = false;
-            oel1 = '${P1Oel}';
-            oel2 = '${P2Oel}';
+            oel1 = ${P1Oel};
+            oel2 = ${P2Oel};
             
             var dice = '${dice}';
             
             var running = new Boolean(false);
             running = '${running}';
-
-            if(running) {
+            
+            if(running)
                 start();
-            } else 
+            else 
                 startPos();
+            
                        
             // call this function once before starting the animations
             function prepareAnimation() {
@@ -127,14 +128,7 @@
                 div.addClass('hide');
                 $("body").append(div);
             }
-            
-            function fin() {
-                $("#player1").appendTo(pos1Old);
-                document.getElementById('player1').style.visibility = 'visible';
-                $("#player2").appendTo(pos2Old);
-                document.getElementById('player2').style.visibility = 'visible';
-            }
-            
+
             function start() {
                 $("#diceImage").attr('src', dice);
            
@@ -142,54 +136,54 @@
                 document.getElementById('player1').style.visibility = 'visible';
                 $("#player2").appendTo(pos2Old);
                 document.getElementById('player2').style.visibility = 'visible';
-                
+
                 prepareAnimation();
                 $("#player1").fadeOut(700, function() {
                     $("#player1").appendTo(pos1);
                     $("#player1").fadeIn(700,function() {
-                        $("#player2").fadeOut(700, function() {
+                        if(oel1) {
+                            $("#player1").fadeOut(700, function() {
+                            $("#player1").appendTo("#start_road");
+                            $("#player1").fadeIn(700, function() {
+                                $("#player2").fadeOut(700, function() {
+                                $("#player2").appendTo(pos2);
+                                $("#player2").fadeIn(700,function() {
+                                if(oel2) {
+                                    $("#player2").fadeOut(700, function() {
+                                    $("#player2").appendTo("#start_road");
+                                    $("#player2").fadeIn(700,completeAnimation());
+                                    });
+                                }
+                                });
+                                });
+                            });
+                            });
+                        } else {
+                            $("#player2").fadeOut(700, function() {
                             $("#player2").appendTo(pos2);
-                            $("#player2").fadeIn(700,completeAnimation());
-                        });                    
+                            $("#player2").fadeIn(700,function() {
+                                if(oel2) {
+                                    $("#player2").fadeOut(700, function() {
+                                    $("#player2").appendTo("#start_road");
+                                    $("#player2").fadeIn(700,completeAnimation());
+                                    });
+                                }
+                            });
+                            });
+                        }
                     });
                 });
-                
+                completeAnimation();
                
             }
-            
-            function checkOel() {
-                if(oel1) {
-                    resetP1();
-                }   
-            }
-            
+
             function startPos() {
                 $("#player1").appendTo("#start_road");
                 document.getElementById('player1').style.visibility = 'visible';
                 $("#player2").appendTo("#start_road");
                 document.getElementById('player2').style.visibility = 'visible';
-                prepareAnimation();
             }
-            
-            function resetP1() {
-                prepareAnimation();
-                    $("#player1").fadeOut(700, function() {
-                            $("#player1").appendTo("#start_road");
-                            $("#player1").fadeIn(700, completeAnimation());
-                    });
-            }
-            
-            function resetP2() {
-                prepareAnimation();
-                $("#player2").fadeOut(700, function() {
-                            $("#player2").appendTo("#start_road");
-                            $("#player2").fadeIn(700,completeAnimation());
-                });
-            }
-            
 
-         
-         
             //]]>
         </script>
 
