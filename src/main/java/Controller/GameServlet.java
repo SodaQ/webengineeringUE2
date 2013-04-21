@@ -60,15 +60,15 @@ public class GameServlet extends HttpServlet {
          
           
         if(action.equals("newGame")) { 
-            game.resetGame();
-         
+            
+            request.setAttribute("running", game.isRunning());
             request.setAttribute("player1OldPos", game.getPlayer1().getCarPositionString());
             request.setAttribute("player2OldPos", game.getPlayer2().getCarPositionString());
             
             request.setAttribute("player1Pos", "#start_road");
             request.setAttribute("player2Pos", "#start_road");
             request.setAttribute("dice", "img/wuerfel0.png");
-            
+            game.resetGame();
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
             dispatcher.forward(request, response);
              

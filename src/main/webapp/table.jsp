@@ -102,8 +102,13 @@
             var oel1 = new Boolean('${P1Oel}');
             var oel2 = new Boolean('${P2Oel}');
             var dice = '${dice}';
+            var running = new Boolean(false);
+            running = '${running}'
 
-            start();
+            if(running)
+                start();
+            else 
+                startPos();
             
             
             
@@ -148,6 +153,14 @@
                 
             
             })
+            
+            function startPos() {
+                $("#player1").appendTo("#start_road");
+                document.getElementById('player1').style.visibility = 'visible';
+                $("#player2").appendTo("#start_road");
+                document.getElementById('player2').style.visibility = 'visible';
+                prepareAnimation();
+            }
             
 
          
