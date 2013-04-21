@@ -27,6 +27,7 @@ public class Game {
     private String diceID;
     private boolean reseted;
 
+
     
     public Game(){
         this.player1 = new Player("Super Mario");
@@ -60,6 +61,9 @@ public class Game {
         duration = "";
         diceID = "img/wuerfel0.png";
         reseted = true;
+        
+        p1Oel = false; 
+        p2Oel = false;
     }
     
     
@@ -155,6 +159,12 @@ public class Game {
     }
             
     public void play() {
+        if(p1Oel) 
+            resetP1();
+        if(p2Oel)
+            resetP2();
+        p2Oel = false;
+        p1Oel = false;
         if(reseted) {
             player1.setCarPosition(0);
             player2.setCarPosition(0);
@@ -173,8 +183,6 @@ public class Game {
         //    player1.setCarPosition(0);
         //if(p2Oel)
         //    player2.setCarPosition(0);
-        p1Oel = false;
-        p2Oel = false;
         
         round++;
         
@@ -184,8 +192,15 @@ public class Game {
         updatePositionPlayer2(getRandomNumber());
         if(checkWinner()) 
             return;
-        //checkOel();
+        checkOel();
         updateLeader(); 
+    }
+    
+    private void resetP1() {
+        player1.setCarPosition(0);
+    }
+    private void resetP2() {
+        player2.setCarPosition(0);
     }
     
     private int getRandomNumber() {
@@ -195,11 +210,13 @@ public class Game {
     private boolean checkWinner() {
         if(player1.getCarPosition()>= 6) {
             player1.setCarPosition(6);   
+
             running = false;
             updateLeader();
             return true;
         } else if(player2.getCarPosition() >= 6) {
             player2.setCarPosition(6);
+
             running = false;
             updateLeader();
             return true;
@@ -207,7 +224,7 @@ public class Game {
             return false;
         }
     }
-    
+
     private void updatePositionPlayer1(int dice) {
         setDiceID(dice);
         this.lastDiceResult = dice;
@@ -241,16 +258,20 @@ public class Game {
     public String getDiceID() {
         return diceID;
     }
-    private void setDiceID(int i) {
+    public void setDiceID(int i) {
         switch(i) {
             case 1: 
                 this.diceID = "img/wuerfel1.png";
+                break;
             case 2: 
                 this.diceID = "img/wuerfel2.png";
+                break;
             case 3: 
                 this.diceID = "img/wuerfel3.png";
+                break;
             default:
                 this.diceID = "img/wuerfel0.png";
+                break;
         }
     }   
 }

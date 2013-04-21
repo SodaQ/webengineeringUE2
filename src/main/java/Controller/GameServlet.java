@@ -23,7 +23,6 @@ import model.Game;
 public class GameServlet extends HttpServlet {
 
     private Game game;
-    private String diceID;
     
     @Override
     public void init() throws ServletException {
@@ -60,21 +59,21 @@ public class GameServlet extends HttpServlet {
          
           
         if(action.equals("newGame")) { 
-            
+            game.resetGame();
             request.setAttribute("running", game.isRunning());
             request.setAttribute("player1OldPos", game.getPlayer1().getCarPositionString());
             request.setAttribute("player2OldPos", game.getPlayer2().getCarPositionString());
-            
+            request.setAttribute("P1Oel", game.isP1Oel());
+            request.setAttribute("P2Oel", game.isP2Oel());
             request.setAttribute("player1Pos", "#start_road");
             request.setAttribute("player2Pos", "#start_road");
             request.setAttribute("dice", "img/wuerfel0.png");
-            game.resetGame();
+            
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
             dispatcher.forward(request, response);
              
         } else if(action.equals("dice")) {
             game.play();
-            diceID = game.getDiceID();
             request.setAttribute("running", game.isRunning());
             request.setAttribute("player1Pos", game.getPlayer1().getCarPositionString());
             request.setAttribute("player2Pos", game.getPlayer2().getCarPositionString());
@@ -82,7 +81,7 @@ public class GameServlet extends HttpServlet {
             request.setAttribute("player2OldPos", game.getPlayer2().getCarPositionString(game.getPlayer2().getOldCarPosition()));
             request.setAttribute("P1Oel", game.isP1Oel());
             request.setAttribute("P2Oel", game.isP2Oel());
-            request.setAttribute("dice", diceID);
+            request.setAttribute("dice", game.getDiceID());
             request.getRequestDispatcher("table.jsp").forward(request, response);
             
             //RequestDispatcher rd = getServletContext().getRequestDispatcher("/table.jsp");

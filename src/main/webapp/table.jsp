@@ -99,19 +99,22 @@
             var pos2 = '${player2Pos}';
             var pos1Old = '${player1OldPos}';
             var pos2Old = '${player2OldPos}';
-            var oel1 = new Boolean('${P1Oel}');
-            var oel2 = new Boolean('${P2Oel}');
+            
+            var oel1 = false;
+            var oel2 = false;
+            oel1 = '${P1Oel}';
+            oel2 = '${P2Oel}';
+            
             var dice = '${dice}';
+            
             var running = new Boolean(false);
-            running = '${running}'
+            running = '${running}';
 
-            if(running)
+            if(running) {
                 start();
-            else 
+            } else 
                 startPos();
-            
-            
-            
+                       
             // call this function once before starting the animations
             function prepareAnimation() {
                 $("#animationDone").remove();
@@ -125,19 +128,23 @@
                 $("body").append(div);
             }
             
-
-            
-            function start() {
-                
-                $('#dice').attr('src','/img/wuerfel2.png');
-                
+            function fin() {
                 $("#player1").appendTo(pos1Old);
                 document.getElementById('player1').style.visibility = 'visible';
                 $("#player2").appendTo(pos2Old);
                 document.getElementById('player2').style.visibility = 'visible';
-                prepareAnimation();
+            }
+            
+            function start() {
+                $("#diceImage").attr('src', dice);
+           
+                $("#player1").appendTo(pos1Old);
+                document.getElementById('player1').style.visibility = 'visible';
+                $("#player2").appendTo(pos2Old);
+                document.getElementById('player2').style.visibility = 'visible';
                 
-                 $("#player1").fadeOut(700, function() {
+                prepareAnimation();
+                $("#player1").fadeOut(700, function() {
                     $("#player1").appendTo(pos1);
                     $("#player1").fadeIn(700,function() {
                         $("#player2").fadeOut(700, function() {
@@ -146,13 +153,15 @@
                         });                    
                     });
                 });
-            
+                
+               
             }
             
-            $("#diceImage").click(function() {
-                
-            
-            })
+            function checkOel() {
+                if(oel1) {
+                    resetP1();
+                }   
+            }
             
             function startPos() {
                 $("#player1").appendTo("#start_road");
@@ -160,6 +169,22 @@
                 $("#player2").appendTo("#start_road");
                 document.getElementById('player2').style.visibility = 'visible';
                 prepareAnimation();
+            }
+            
+            function resetP1() {
+                prepareAnimation();
+                    $("#player1").fadeOut(700, function() {
+                            $("#player1").appendTo("#start_road");
+                            $("#player1").fadeIn(700, completeAnimation());
+                    });
+            }
+            
+            function resetP2() {
+                prepareAnimation();
+                $("#player2").fadeOut(700, function() {
+                            $("#player2").appendTo("#start_road");
+                            $("#player2").fadeIn(700,completeAnimation());
+                });
             }
             
 
