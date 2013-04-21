@@ -35,8 +35,8 @@
                         <table summary="Diese Tabelle zeigt Informationen zum aktuellen Spiel">
                             <tr><th id="leaderLabel" class="label">F&uuml;hrender</th><td id="leader" class="data"> <%= game.getLeader()%></td></tr>
                             <tr><th id="roundLabel" class="label">Runde</th><td id="round" class="data"><%= game.getRound() %></td></tr>
-                            <tr><th id="timeLabel" class="label">Zeit</th><td id="time" class="data"><%= game.getGameDurationInSeconds()%></td></tr>
-                            <tr><th id="computerScoreLabel" class="label">W&uuml;rfelergebnis <em>Super C</em></th><td id="computerScore" class="data"><%= game.getLastDiceResultComputer()%></td></tr>
+                            <tr><th id="timeLabel" class="label">Zeit</th><td id="time" class="data"><%= game.getGameDuration()%></td></tr>
+                            <tr><th id="computerScoreLabel" class="label">W&uuml;rfelergebnis <em>Super C</em></th><td id="computerScore" class="data"><%= game.getLastDiceResult()%></td></tr>
                         </table>  
                         <h2>Spieler</h2>
                         <table summary="Diese Tabelle listet die Namen der Spieler auf">
@@ -49,24 +49,25 @@
                         <ol id="road">
                             <li id="start_road">
                                 <span class="accessibility">Startfeld</span>
+                                <span id="player1">
+                                    <span class="accessibility"><em>Spieler 1</em></span>
+                                </span>
+                                <span id="player2">
+                                    <span class="accessibility"><em>Spieler 2</em></span>
+                                </span>
                             </li>
                             <li class="empty_road" id="road_1">
                                 <span class="accessibility">Feld 2</span>
                             </li>
                             <li class="oil_road" id="road_2">
                                 <span class="accessibility">Feld 3</span>
-                                <span id="player1">
-                                    <span class="accessibility"><em>Spieler 1</em></span>
-                                </span>
+                                
                             </li>
                             <li class="empty_road" id="road_3">
                                 <span class="accessibility">Feld 4</span>
                             </li>
                             <li class="empty_road" id="road_4">
                                 <span class="accessibility">Feld 5</span>
-                                <span id="player2">
-                                    <span class="accessibility"><em>Spieler 2</em></span>
-                                </span>
                             </li>
                             <li class="oil_road" id="road_5">
                                 <span class="accessibility">Feld 6</span>
@@ -79,7 +80,7 @@
                     <div class="player">
                         <h2 class="accessibility">W&uuml;rfelbereich</h2>
                         <span class="accessibility">An der Reihe ist</span><div id="currentPlayerName">Super Mario</div>
-                        <a id="dice" href="#" tabindex="4">
+                        <a id="dice" href="GameServlet?action=dice" tabindex="4">
                             <img id="diceImage" src="img/wuerfel1.png" alt="W&uuml;rfel mit einer Eins" />	
                         </a>
                     </div>
@@ -92,6 +93,19 @@
 
         <script type="text/javascript">
             //<![CDATA[
+            
+            
+            var pos1 = '${player1Pos}';
+            var pos2 = '${player2Pos}';
+            var pos1Old = '${player1OldPos}';
+            var pos2Old = '${player2OldPos}';
+            var oel1 = new Boolean('${P1Oel}');
+            var oel2 = new Boolean('${P2Oel}');
+            var dice = '${dice}';
+
+            start();
+            
+            
             
             // call this function once before starting the animations
             function prepareAnimation() {
@@ -106,14 +120,38 @@
                 $("body").append(div);
             }
             
-            $("#dice").click(function() {
+
+            
+            function start() {
+                
+                $('#dice').attr('src','/img/wuerfel2.png');
+                
+                $("#player1").appendTo(pos1Old);
+                document.getElementById('player1').style.visibility = 'visible';
+                $("#player2").appendTo(pos2Old);
+                document.getElementById('player2').style.visibility = 'visible';
                 prepareAnimation();
-                $("#player1").fadeOut(700, function() {
-                    $("#player1").appendTo("#start_road");
-                    $("#player1").fadeIn(700,completeAnimation);                    
+                
+                 $("#player1").fadeOut(700, function() {
+                    $("#player1").appendTo(pos1);
+                    $("#player1").fadeIn(700,function() {
+                        $("#player2").fadeOut(700, function() {
+                            $("#player2").appendTo(pos2);
+                            $("#player2").fadeIn(700,completeAnimation());
+                        });                    
+                    });
                 });
-                return false;
-            });
+            
+            }
+            
+            $("#diceImage").click(function() {
+                
+            
+            })
+            
+
+         
+         
             //]]>
         </script>
 

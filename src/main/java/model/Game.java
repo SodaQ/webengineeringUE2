@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Random;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -11,42 +13,55 @@ package model;
  */
 public class Game {
     
-    
     private Player player1;
     private Player player2;
     private int round;
-    private int gameDurationInSeconds;
     private long gameStartTime;
-    private int diceResult;
-    private int lastDiceResultComputer;
+    private int lastDiceResult;
     private String leader;
+    private Random generator = new Random();
+    private boolean p1Oel;
+    private boolean p2Oel;
+    private boolean running;
+    private String duration;
+    private String diceID;
+    private boolean reseted;
 
     
     public Game(){
-         
         this.player1 = new Player("Super Mario");
         this.player2 = new Player("Super C");
-        this.round = 0;
-        this.gameDurationInSeconds = 0;
-        this.gameStartTime = System.currentTimeMillis();
-        this.diceResult = 0;
-        this.leader = "mehrere";
-        this.lastDiceResultComputer = 0;
+        reseted = false;
+        resetGame();
     }
     
     public Game(String playerOneName, String playerTwoName){
-        
         this.player1 = new Player(playerOneName);
         this.player2 = new Player(playerTwoName);
-        this.round = 0;
-        this.gameDurationInSeconds = 0;
-        this.gameStartTime = System.currentTimeMillis();
-        this.diceResult = 0;
-        this.leader = "mehrere";
-        this.lastDiceResultComputer = 0;
-
-        
+        reseted = false;
+        resetGame();
     }
+    
+    /**
+     * called if new game is pressed
+     */
+    public void resetGame(){ 
+        if(reseted) {
+            player1.setCarPosition(0);
+            player2.setCarPosition(0);
+        }
+        this.round = 1;
+        this.gameStartTime = System.currentTimeMillis();
+        this.lastDiceResult = 0;
+        this.leader = "mehrere";
+        player1.setOldCarPosition(0);
+        player2.setOldCarPosition(0);
+        running = true;
+        duration = "";
+        diceID = "img/wuerfel0.png";
+        reseted = true;
+    }
+    
     
     /**
      * @return the player1
@@ -93,29 +108,27 @@ public class Game {
     /**
      * @return the gameDurationInSeconds
      */
-    public int getGameDurationInSeconds() {
-        return gameDurationInSeconds;
+    private int getGameDurationSeconds() {
+        return (int) (Math.round(System.currentTimeMillis()/1000 - gameStartTime/1000) % 60);
     }
-
-    /**
-     * @param gameDurationInSeconds the gameDurationInSeconds to set
-     */
-    public void setGameDurationInSeconds(int gameDurationInSeconds) {
-        this.gameDurationInSeconds = gameDurationInSeconds;
-    }
-
-    /**
-     * @return the diceResult
-     */
-    public int getDiceResult() {
-        return diceResult;
-    }
-
-    /**
-     * @param diceResult the diceResult to set
-     */
-    public void setDiceResult(int diceResult) {
-        this.diceResult = diceResult;
+    private int getGameDurationMinutes() {
+        return (int) (Math.round(System.currentTimeMillis()/1000 - gameStartTime/1000)/60);
+    }    
+    public String getGameDuration() {
+        if (running) {
+            if (getGameDurationMinutes() < 10) {
+                duration = "0" + getGameDurationMinutes();
+            } else {
+                duration = "" + getGameDurationMinutes();
+            }
+            duration += ":";
+            if (getGameDurationSeconds() < 10) {
+                duration += "0" + getGameDurationSeconds();
+            } else {
+                duration += "" + getGameDurationSeconds();
+            }
+        }
+        return duration;
     }
 
     /**
@@ -131,35 +144,113 @@ public class Game {
     public void setLeader(String leader) {
         this.leader = leader;
     }
+    
+    public void updateLeader() {
+        if(player1.getCarPosition() > player2.getCarPosition()) 
+            leader = player1.getName();
+        else if(player1.getCarPosition() < player2.getCarPosition())
+            leader = player2.getName();
+        else 
+            leader = "mehrere";
+    }
             
-    /**
-     * called if new game is pressed
-     */
-    public void resetGame(){
+    public void play() {
+        if(reseted) {
+            player1.setCarPosition(0);
+            player2.setCarPosition(0);
+        }
+        reseted = false;
+        player1.setOldCarPosition(player1.getCarPosition());
+        player2.setOldCarPosition(player2.getCarPosition());
+        if(!running) {
+            return;
+        }
         
-        this.round = 0;
-        this.gameDurationInSeconds = 0;
-        this.gameStartTime = System.currentTimeMillis();
-        this.diceResult = 0;
-        this.leader = "mehrere";
+        //-----------
+        //Fleckenerkennung!!!   ;D
+        //-----------
+        //if(p1Oel)
+        //    player1.setCarPosition(0);
+        //if(p2Oel)
+        //    player2.setCarPosition(0);
+        p1Oel = false;
+        p2Oel = false;
         
+        round++;
+        
+        updatePositionPlayer1(getRandomNumber());
+        if(checkWinner()) 
+            return;
+        updatePositionPlayer2(getRandomNumber());
+        if(checkWinner()) 
+            return;
+        //checkOel();
+        updateLeader(); 
+    }
+    
+    private int getRandomNumber() {
+        return (generator.nextInt(3) + 1);
+    }
+    
+    private boolean checkWinner() {
+        if(player1.getCarPosition()>= 6) {
+            player1.setCarPosition(6);   
+            running = false;
+            updateLeader();
+            return true;
+        } else if(player2.getCarPosition() >= 6) {
+            player2.setCarPosition(6);
+            running = false;
+            updateLeader();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    private void updatePositionPlayer1(int dice) {
+        setDiceID(dice);
+        this.lastDiceResult = dice;
+        player1.setCarPosition(player1.getCarPosition()+dice);
     }
 
-    /**
-     * @return the lastDiceResultComputer
-     */
-    public int getLastDiceResultComputer() {
-        return lastDiceResultComputer;
+    public int getLastDiceResult() {
+        return lastDiceResult;
     }
 
-    /**
-     * @param lastDiceResultComputer the lastDiceResultComputer to set
-     */
-    public void setLastDiceResultComputer(int lastDiceResultComputer) {
-        this.lastDiceResultComputer = lastDiceResultComputer;
+    public void updatePositionPlayer2(int dice) {
+        player2.setCarPosition(player2.getCarPosition()+dice);
     }
     
+    private void checkOel() {
+        if(player1.getCarPosition() == 2 || player1.getCarPosition() == 5)
+            p1Oel = true;
+        if(player2.getCarPosition() == 2 || player2.getCarPosition() == 5)
+            p2Oel = true; 
+    }
     
-        
-    
+    public boolean isRunning() {
+        return running;
+    }
+    public boolean isP1Oel() {
+        return p1Oel;
+    }
+    public boolean isP2Oel() {
+        return p2Oel;
+    }
+    public String getDiceID() {
+        return diceID;
+    }
+    private void setDiceID(int i) {
+        switch(i) {
+            case 1: 
+                this.diceID = "img/wuerfel1.png";
+            case 2: 
+                this.diceID = "img/wuerfel2.png";
+            case 3: 
+                this.diceID = "img/wuerfel3.png";
+            default:
+                this.diceID = "img/wuerfel0.png";
+        }
+    }   
 }
