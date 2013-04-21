@@ -227,7 +227,6 @@ public class Game {
 
     private void updatePositionPlayer1(int dice) {
         setDiceID(dice);
-        this.lastDiceResult = dice;
         player1.setCarPosition(player1.getCarPosition()+dice);
     }
 
@@ -236,6 +235,7 @@ public class Game {
     }
 
     public void updatePositionPlayer2(int dice) {
+        this.lastDiceResult = dice;
         player2.setCarPosition(player2.getCarPosition()+dice);
     }
     
