@@ -1,7 +1,8 @@
 <%-- 
-    Document   : table
-    Created on : Apr 19, 2013, 6:43:52 PM
-    Author     : patrickfuerst
+    Document   :    table
+    Author     :    Boesch Chris    (1025952)
+                    Fuerst Patrick  (0927543)
+                    Musil Thomas    (1167504)
 --%>
 
 <%@page contentType="text/html" pageEncoding="MacRoman"%>
@@ -111,9 +112,7 @@
             
             if(running || (!running && (oel1||oel2) ))
                 start();
-   
-            
-                       
+                          
             // call this function once before starting the animations
             function prepareAnimation() {
                 $("#animationDone").remove();
@@ -130,9 +129,11 @@
             function start() {
                 $("#diceImage").attr('src', dice);
            
-                $("#player1").appendTo(pos1Old);              
+                $("#player1").appendTo(pos1Old);
+                document.getElementById('player1').style.visibility = 'visible';
                 $("#player2").appendTo(pos2Old);
-  
+                document.getElementById('player2').style.visibility = 'visible';
+
                 prepareAnimation();
                 $("#player1").fadeOut(700, function() {
                     $("#player1").appendTo(pos1);

@@ -1,34 +1,25 @@
 package model;
 
 /*
- * This is our Model class Player.
- *
- */
-
-/**
- *
- * @author patrickfuerst
+ * Document: Player.java
+ * Author:        Boesch Chris    (1025952)
+ *                Fuerst Patrick  (0927543)
+ *                Musil Thomas    (1167504)  
  */
 public class Player {
     
-    
-    
-    
-    
     private String name;
-    //define the position of the car
+    // define the position of the car
     // zero if the car stands on the start
     private int carPosition;
     private int oldCarPosition;
-    
-    
+      
     public Player(String name){
         this.name = name;
         this.carPosition = 0;
     }
     
-    public String getName(){
-    
+    public String getName(){ 
         return name;
     }
     
@@ -39,12 +30,15 @@ public class Player {
     public void setCarPosition(int pos) {
         this.carPosition = pos;
     }
+    
     public int getCarPosition() {
         return carPosition;
     }
+    
     public void setOldCarPosition(int pos) {
         this.oldCarPosition = pos;
     }
+    
     public int getOldCarPosition() {
         return oldCarPosition;
     }

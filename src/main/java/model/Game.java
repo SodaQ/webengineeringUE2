@@ -3,13 +3,10 @@ package model;
 import java.util.Random;
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author patrickfuerst
+ * Document: Game.java
+ * Author:        Boesch Chris    (1025952)
+ *                Fuerst Patrick  (0927543)
+ *                Musil Thomas    (1167504)              
  */
 public class Game {
     
