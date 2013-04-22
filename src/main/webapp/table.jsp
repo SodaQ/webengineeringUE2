@@ -60,7 +60,7 @@
                                 <span class="accessibility">Feld 2</span>
                             </li>
                             <li class="oil_road" id="road_2">
-                                <span class="accessibility">Feld 3</span>
+                                <span class="accessibility">Feld 3 Oelfleck</span>
                                 
                             </li>
                             <li class="empty_road" id="road_3">
@@ -70,7 +70,7 @@
                                 <span class="accessibility">Feld 5</span>
                             </li>
                             <li class="oil_road" id="road_5">
-                                <span class="accessibility">Feld 6</span>
+                                <span class="accessibility">Feld 6 Oelfleck</span>
                             </li>
                             <li id="finish_road">
                                 <span class="accessibility">Zielfeld</span>
@@ -93,8 +93,7 @@
 
         <script type="text/javascript">
             //<![CDATA[
-            
-            
+
             var pos1 = '${player1Pos}';
             var pos2 = '${player2Pos}';
             var pos1Old = '${player1OldPos}';
@@ -110,10 +109,9 @@
             var running = new Boolean(false);
             running = '${running}';
             
-            if(running)
+            if(running || (!running && (oel1||oel2) ))
                 start();
-            else 
-                startPos();
+   
             
                        
             // call this function once before starting the animations
@@ -132,11 +130,9 @@
             function start() {
                 $("#diceImage").attr('src', dice);
            
-                $("#player1").appendTo(pos1Old);
-                document.getElementById('player1').style.visibility = 'visible';
+                $("#player1").appendTo(pos1Old);              
                 $("#player2").appendTo(pos2Old);
-                document.getElementById('player2').style.visibility = 'visible';
-
+  
                 prepareAnimation();
                 $("#player1").fadeOut(700, function() {
                     $("#player1").appendTo(pos1);
@@ -151,7 +147,7 @@
                                 if(oel2) {
                                     $("#player2").fadeOut(700, function() {
                                     $("#player2").appendTo("#start_road");
-                                    $("#player2").fadeIn(700,completeAnimation());
+                                    $("#player2").fadeIn(700,null);
                                     });
                                 }
                                 });
@@ -165,7 +161,7 @@
                                 if(oel2) {
                                     $("#player2").fadeOut(700, function() {
                                     $("#player2").appendTo("#start_road");
-                                    $("#player2").fadeIn(700,completeAnimation());
+                                    $("#player2").fadeIn(700,null);
                                     });
                                 }
                             });
@@ -173,17 +169,8 @@
                         }
                     });
                 });
-                completeAnimation();
-               
+                completeAnimation();              
             }
-
-            function startPos() {
-                $("#player1").appendTo("#start_road");
-                document.getElementById('player1').style.visibility = 'visible';
-                $("#player2").appendTo("#start_road");
-                document.getElementById('player2').style.visibility = 'visible';
-            }
-
             //]]>
         </script>
 

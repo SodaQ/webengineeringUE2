@@ -38,8 +38,7 @@ public class Game {
         this.leader = "mehrere";
         player1.setOldCarPosition(0);
         player2.setOldCarPosition(0);
-        running = false;
-        init = true;
+        running = true;
         duration = "";
         diceID = "img/wuerfel0.png";
         reseted = true;    
@@ -51,15 +50,13 @@ public class Game {
         this.player1 = new Player(playerOneName);
         this.player2 = new Player(playerTwoName);
         reseted = false;
-        init = true;
         this.round = 1;
         this.gameStartTime = System.currentTimeMillis();
         this.lastDiceResult = 0;
         this.leader = "mehrere";
         player1.setOldCarPosition(0);
         player2.setOldCarPosition(0);
-        running = false;
-        init = true;
+        running = true;
         duration = "";
         diceID = "img/wuerfel0.png";
         reseted = true;        
@@ -88,8 +85,7 @@ public class Game {
         running = true;
         duration = "";
         diceID = "img/wuerfel0.png";
-        reseted = true;
-        
+        reseted = true;       
         p1Oel = false; 
         p2Oel = false;
     }
@@ -179,10 +175,6 @@ public class Game {
     }
             
     public void play() {
-        if(init) {
-            resetGame();
-            init = false;
-        }
         if(p1Oel) 
             resetP1();
         if(p2Oel)
@@ -203,17 +195,15 @@ public class Game {
         round++;
         
         updatePositionPlayer1(getRandomNumber());
-        
+        checkOel();
         if(checkWinner()) 
             return;
         
         updatePositionPlayer2(getRandomNumber());
-        
+        checkOel();
         if(checkWinner()) 
             return;
-        
-        checkOel();
-        
+  
         updateLeader(); 
     }
     

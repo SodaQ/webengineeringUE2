@@ -250,7 +250,6 @@ span#player1 {
 	height: 90px;
 	width: 70px;
 	float: left;
-        visibility: hidden;
 }
 
 span#player2 {
@@ -260,5 +259,4 @@ span#player2 {
 	height: 90px;
 	width: 50px;
 	float: right;
-        visibility: hidden;
 }

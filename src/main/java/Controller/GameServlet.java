@@ -40,15 +40,10 @@ public class GameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String action = request.getParameter("action");
-        if(action==null) {
-            return;
-        }
+         String action = request.getParameter("action");
         
          Game game =(Game)request.getSession().getAttribute("game");
-         
-        
-         
+                  
          // if this is a new session and there is no game attribute 
          // create a new game
          if(game == null){
@@ -57,34 +52,27 @@ public class GameServlet extends HttpServlet {
             session.setAttribute("game", game);
          }
          
-          
-        if(action.equals("newGame")) { 
-            game.resetGame();
-            request.setAttribute("running", game.isRunning());
-            request.setAttribute("player1OldPos", game.getPlayer1().getCarPositionString());
-            request.setAttribute("player2OldPos", game.getPlayer2().getCarPositionString());
-            request.setAttribute("P1Oel", game.isP1Oel());
-            request.setAttribute("P2Oel", game.isP2Oel());
-            request.setAttribute("player1Pos", "#start_road");
-            request.setAttribute("player2Pos", "#start_road");
-            request.setAttribute("dice", "img/wuerfel0.png");
-            
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
-            dispatcher.forward(request, response);
-             
-        } else if(action.equals("dice")) {
-            game.play();
-            request.setAttribute("running", game.isRunning());
-            request.setAttribute("player1Pos", game.getPlayer1().getCarPositionString());
-            request.setAttribute("player2Pos", game.getPlayer2().getCarPositionString());
-            request.setAttribute("player1OldPos", game.getPlayer1().getCarPositionString(game.getPlayer1().getOldCarPosition()));
-            request.setAttribute("player2OldPos", game.getPlayer2().getCarPositionString(game.getPlayer2().getOldCarPosition()));
-            request.setAttribute("P1Oel", game.isP1Oel());
-            request.setAttribute("P2Oel", game.isP2Oel());
-            request.setAttribute("dice", game.getDiceID());
-            
-            request.getRequestDispatcher("table.jsp").forward(request, response);      
+        if(action != null) {  
+            if(action.equals("newGame")) {
+                game.resetGame();            
+                request.setAttribute("player1OldPos", game.getPlayer1().getCarPositionString());
+                request.setAttribute("player2OldPos", game.getPlayer2().getCarPositionString());           
+                request.setAttribute("player1Pos", "#start_road");
+                request.setAttribute("player2Pos", "#start_road");                      
+            } else if(action.equals("dice")) {
+                game.play();
+                request.setAttribute("player1Pos", game.getPlayer1().getCarPositionString());
+                request.setAttribute("player2Pos", game.getPlayer2().getCarPositionString());
+                request.setAttribute("player1OldPos", game.getPlayer1().getCarPositionString(game.getPlayer1().getOldCarPosition()));
+                request.setAttribute("player2OldPos", game.getPlayer2().getCarPositionString(game.getPlayer2().getOldCarPosition()));                                     
+            }
         }
+        request.setAttribute("running", game.isRunning());
+        request.setAttribute("P1Oel", game.isP1Oel());
+        request.setAttribute("P2Oel", game.isP2Oel());
+        request.setAttribute("dice", game.getDiceID()); 
+        
+        request.getRequestDispatcher("table.jsp").forward(request, response);
     }
 
     /**
