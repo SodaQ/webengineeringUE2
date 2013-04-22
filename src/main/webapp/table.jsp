@@ -1,3 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
 <%-- 
     Document   :    table
     Author     :    Boesch Chris    (1025952)
@@ -8,11 +12,14 @@
 <%@page contentType="text/html" pageEncoding="MacRoman"%>
 <jsp:useBean id="game" scope="session"  class="model.Game" />
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
     <head>
         <title xml:lang="de">Formel 0 - Spielen</title>
-        <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+        <meta name="keywords" content="CSS, XHTML, JavaScript"/>
+        <meta name="description" content="UE2 fuer WebEngineering TU Wien"/>
+        <meta name="author" content="Boesch Chris (1025952), Musil Thomas (1167504), Fuerst Patrick (0927543)"/>
         <link rel="stylesheet" type="text/css" href="styles/screen.css" />
         <script src="js/jquery.js" type="text/javascript"></script>
     </head>

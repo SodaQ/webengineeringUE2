@@ -1,12 +1,5 @@
 package Controller;
 
-/*
- * Document: GameServlet.java
- * Author:        Boesch Chris    (1025952)
- *                Fuerst Patrick  (0927543)
- *                Musil Thomas    (1167504)  
- */
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Game;
 
+/*
+ * Document: GameServlet.java
+ * Author:        Boesch Chris    (1025952)
+ *                Fuerst Patrick  (0927543)
+ *                Musil Thomas    (1167504)  
+ */
 public class GameServlet extends HttpServlet {
 
     private Game game;

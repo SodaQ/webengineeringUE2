@@ -42,9 +42,7 @@ public class Player {
     public int getOldCarPosition() {
         return oldCarPosition;
     }
-    
-    
-    
+       
     public String getCarPositionString() {
         int i = this.getCarPosition(); 
         switch(i) {
@@ -86,6 +84,5 @@ public class Player {
             default: 
                 return null;    
         }
-    }
-    
+    }   
 }
